@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// GitHub Pages project site: https://<user>.github.io/<repo>/
-const repoName = process.env.GITHUB_REPOSITORY_NAME
-const isGitHubPages = process.env.GITHUB_PAGES === 'true' && repoName
-const base = isGitHubPages ? `/${repoName}/` : '/'
+// GitHub Pages: dùng base tương đối để tránh 404 khi tên repo khác tên folder local
+// https://<user>.github.io/<repo>/
+const isGitHubPages = process.env.GITHUB_PAGES === 'true'
+const base = isGitHubPages ? './' : '/'
 
 // https://vite.dev/config/
 export default defineConfig({
