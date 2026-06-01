@@ -1,6 +1,6 @@
 {
   "password": {
-    "code": "1903",
+    "code": "2202",
     "title": "Nhập mật khẩu",
     "subtitle": "Ngày chúng mình bắt đầu yêu",
     "loading": "Đang tải..."
@@ -32,9 +32,5 @@
       "paragraph2": "Chúc bạn nhỏ ngày càng xinh xắn, dễ thương, mong bạn có thật nhiều niềm vui. Thương bạn nhỏ của tôi nhiều lắm...\nThương bạn nhỏ của tôi nhiều lắm..."
     },
     "footer": "Chúc bạn nhỏ luôn hạnh phúc!"
-  },
-  "music": {
-    "play": "Bật nhạc",
-    "pause": "Tắt nhạc"
   }
 }

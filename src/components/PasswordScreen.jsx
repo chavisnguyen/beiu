@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Delete } from 'lucide-react';
 import greetings from '../content/greetings.json';
+import bgSrc from '../assets/bg.jpg';
 
 const { code: correctPassword, title, subtitle, loading: loadingText } = greetings.password;
 
@@ -42,6 +43,7 @@ export default function PasswordScreen({ onCorrectPassword }) {
 
   return (
     <div className={`password-container ${error ? 'shake' : ''}`}>
+      <div className="password-glass-panel">
       {/* Peach & Goma cute cats container */}
       <div className="cats-avatar-container">
         <div className="cat-wrapper pink-cat">
@@ -135,6 +137,7 @@ export default function PasswordScreen({ onCorrectPassword }) {
           </div>
         </div>
       )}
+      </div>
 
       <style>{`
         .password-container {
@@ -145,19 +148,98 @@ export default function PasswordScreen({ onCorrectPassword }) {
           width: 100%;
           height: 100vh;
           position: relative;
-          background-color: #3b111a;
-          background-image: radial-gradient(circle at center, #4d1823 0%, #20070c 100%);
+          background-color: #20070c;
+          background-image: url(${bgSrc});
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .password-container::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            180deg,
+            rgba(32, 7, 12, 0.15) 0%,
+            rgba(20, 5, 10, 0.35) 100%
+          );
+          z-index: 0;
+        }
+
+        .password-glass-panel {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: min(92vw, 380px);
+          padding: 2rem 1.5rem 1.75rem;
+          border-radius: 36px;
+          background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.22) 0%,
+            rgba(255, 255, 255, 0.08) 45%,
+            rgba(255, 180, 200, 0.12) 100%
+          );
+          backdrop-filter: blur(28px) saturate(1.5);
+          -webkit-backdrop-filter: blur(28px) saturate(1.5);
+          border: 1px solid rgba(255, 255, 255, 0.38);
+          box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.28),
+            inset 0 1px 1px rgba(255, 255, 255, 0.5),
+            inset 0 -1px 1px rgba(255, 255, 255, 0.06),
+            var(--glass-glow);
+          overflow: hidden;
+        }
+
+        .password-glass-panel::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 8%;
+          right: 8%;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.75),
+            transparent
+          );
+          pointer-events: none;
+        }
+
+        .password-glass-panel::after {
+          content: '';
+          position: absolute;
+          top: -40%;
+          left: -20%;
+          width: 60%;
+          height: 80%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(255, 255, 255, 0.18) 0%,
+            transparent 70%
+          );
+          pointer-events: none;
+          animation: liquidShine 8s ease-in-out infinite;
+        }
+
+        @keyframes liquidShine {
+          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+          50% { transform: translate(30%, 20%) scale(1.1); opacity: 1; }
         }
 
         .cats-avatar-container {
           display: flex;
           gap: 20px;
           margin-bottom: 24px;
+          position: relative;
           z-index: 1;
         }
 
         .cat-wrapper {
-          filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
           animation: bounceSlow 3s ease-in-out infinite;
         }
 
@@ -172,6 +254,7 @@ export default function PasswordScreen({ onCorrectPassword }) {
         .password-header {
           text-align: center;
           margin-bottom: 30px;
+          position: relative;
           z-index: 1;
         }
 
@@ -180,18 +263,25 @@ export default function PasswordScreen({ onCorrectPassword }) {
           color: #fff;
           margin-bottom: 6px;
           letter-spacing: 1px;
+          text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
         }
 
         .password-header p {
-          color: #fff;
+          color: rgba(255, 255, 255, 0.92);
           font-size: 0.95rem;
-          opacity: 0.8;
+          text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         }
 
         .dots-container {
           display: flex;
           gap: 20px;
           margin-bottom: 40px;
+          padding: 12px 28px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+          position: relative;
           z-index: 1;
         }
 
@@ -199,42 +289,55 @@ export default function PasswordScreen({ onCorrectPassword }) {
           width: 16px;
           height: 16px;
           border-radius: 50%;
-          border: 2px solid #ff4d6d;
+          border: 2px solid rgba(255, 77, 109, 0.85);
           transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          background: transparent;
+          background: rgba(255, 255, 255, 0.08);
+          box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
         }
 
         .dot.active {
-          background-color: #ff4d6d;
-          box-shadow: 0 0 10px #ff4d6d, 0 0 20px rgba(255, 77, 109, 0.5);
+          background: linear-gradient(145deg, #ff6b8a, #ff4d6d);
+          border-color: rgba(255, 255, 255, 0.5);
+          box-shadow:
+            0 0 12px rgba(255, 77, 109, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
           transform: scale(1.1);
         }
 
         .dot.error {
-          border-color: #ff3333;
-          background-color: #ff3333;
-          box-shadow: 0 0 10px #ff3333;
+          border-color: rgba(255, 100, 100, 0.9);
+          background: linear-gradient(145deg, #ff5555, #e02828);
+          box-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
         }
 
         .dot.success {
-          border-color: #2ec4b6;
-          background-color: #2ec4b6;
-          box-shadow: 0 0 10px #2ec4b6;
+          border-color: rgba(255, 255, 255, 0.45);
+          background: linear-gradient(145deg, #3dd9cc, #2ec4b6);
+          box-shadow: 0 0 12px rgba(46, 196, 182, 0.6);
         }
 
         .loading-text {
           font-size: 1.2rem;
-          color: #ff9fb2;
+          color: #fff;
           animation: pulse 1.5s infinite;
-          margin-top: 50px;
+          margin-top: 24px;
+          padding: 10px 24px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          position: relative;
           z-index: 1;
           font-weight: 500;
+          text-shadow: 0 0 12px rgba(255, 159, 178, 0.8);
         }
 
         .keypad-container {
           display: flex;
           flex-direction: column;
           gap: 16px;
+          position: relative;
           z-index: 1;
         }
 
@@ -248,41 +351,74 @@ export default function PasswordScreen({ onCorrectPassword }) {
           width: 70px;
           height: 70px;
           border-radius: 50%;
-          border: none;
-          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.32);
+          background: linear-gradient(
+            160deg,
+            rgba(255, 255, 255, 0.28) 0%,
+            rgba(255, 255, 255, 0.08) 100%
+          );
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
           color: #fff;
           font-size: 1.5rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.15s ease;
+          transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
           display: flex;
           align-items: center;
           justify-content: center;
           font-family: inherit;
+          box-shadow:
+            0 4px 16px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.45),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.06);
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
         }
 
         .keypad-row button:active {
-          background: #ff4d6d;
+          background: linear-gradient(
+            160deg,
+            rgba(255, 77, 109, 0.75) 0%,
+            rgba(255, 77, 109, 0.45) 100%
+          );
+          border-color: rgba(255, 255, 255, 0.5);
           transform: scale(0.92);
-          box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
+          box-shadow:
+            0 0 20px rgba(255, 77, 109, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
 
         .keypad-row button:hover {
-          background: rgba(255, 255, 255, 0.15);
+          background: linear-gradient(
+            160deg,
+            rgba(255, 255, 255, 0.38) 0%,
+            rgba(255, 255, 255, 0.14) 100%
+          );
+          border-color: rgba(255, 255, 255, 0.45);
+          transform: scale(1.04);
         }
 
         .keypad-row button.empty-btn {
           background: transparent;
+          border-color: transparent;
+          box-shadow: none;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
           cursor: default;
           pointer-events: none;
         }
 
         .keypad-row button.del-btn {
-          color: #ff9fb2;
+          color: #ffe0e8;
         }
 
         .keypad-row button.del-btn:hover {
-          background: rgba(255, 77, 109, 0.1);
+          background: linear-gradient(
+            160deg,
+            rgba(255, 77, 109, 0.35) 0%,
+            rgba(255, 77, 109, 0.15) 100%
+          );
+          border-color: rgba(255, 159, 178, 0.5);
         }
 
         /* Shake animation for incorrect password */
@@ -298,6 +434,10 @@ export default function PasswordScreen({ onCorrectPassword }) {
 
         /* Subtle responsive design */
         @media (max-height: 700px) {
+          .password-glass-panel {
+            padding: 1.25rem 1.25rem 1rem;
+            border-radius: 28px;
+          }
           .cats-avatar-container {
             margin-bottom: 12px;
           }
@@ -306,6 +446,7 @@ export default function PasswordScreen({ onCorrectPassword }) {
           }
           .dots-container {
             margin-bottom: 25px;
+            padding: 10px 22px;
           }
           .keypad-row {
             gap: 16px;

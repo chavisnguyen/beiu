@@ -179,16 +179,50 @@ function loadTexture(loader, url) {
   });
 }
 
-// Đọc toàn bộ ảnh trong thư mục — thêm/xóa file sẽ HMR reload component
-const imageModules = import.meta.glob('../assets/images/*.{png,jpg,jpeg,gif,webp}', {
-  eager: true,
-});
+// Cả .jpg và .JPG — glob Vite phân biệt hoa thường trên Linux (GitHub Pages)
+const imageModules = import.meta.glob(
+  '../assets/images/*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF,webp,WEBP}',
+  { eager: true },
+);
 
 function loadImageUrls() {
-  return Object.entries(imageModules)
-    .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
-    .map(([, mod]) => mod.default)
+  const urls = Object.values(imageModules)
+    .map((mod) => mod.default)
     .filter(Boolean);
+
+  return shuffleInPlace(urls);
+}
+
+/** Fisher–Yates — xáo trộn tại chỗ */
+function shuffleInPlace(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+/**
+ * Gán URL ảnh ngẫu nhiên cho từng slot: rút từ bộ đã xáo, hết bộ thì xáo lại.
+ * Mỗi vòng dùng hết ~70 ảnh trước khi lặp — không bám thứ tự tên file / index.
+ */
+function assignRandomImageUrls(imageUrls, slotCount) {
+  if (slotCount === 0 || imageUrls.length === 0) return [];
+
+  const picks = [];
+  let deck = [];
+
+  for (let s = 0; s < slotCount; s++) {
+    if (deck.length === 0) {
+      deck = [...imageUrls];
+      shuffleInPlace(deck);
+    }
+    const pick = Math.floor(Math.random() * deck.length);
+    picks.push(deck[pick]);
+    deck.splice(pick, 1);
+  }
+
+  return picks;
 }
 
 
@@ -291,23 +325,56 @@ export default function ThreeSphere({ onTriggerLetter }) {
 
     const textureLoader = new THREE.TextureLoader();
     const cardItems = [];
+    const sourceTextures = [];
 
     const buildCards = async () => {
       try {
-        const textures = await Promise.all(
-          imageUrls.map((url) => loadTexture(textureLoader, url)),
+        const loadResults = await Promise.allSettled(
+          imageUrls.map((url) => loadTexture(textureLoader, url).then((tex) => ({ url, tex }))),
         );
+
+        const textureByUrl = new Map();
+        let failed = 0;
+        loadResults.forEach((result) => {
+          if (result.status === 'fulfilled') {
+            textureByUrl.set(result.value.url, result.value.tex);
+            sourceTextures.push(result.value.tex);
+          } else {
+            failed += 1;
+          }
+        });
+
+        const loadedUrls = imageUrls.filter((url) => textureByUrl.has(url));
+        if (loadedUrls.length === 0) {
+          console.warn('ThreeSphere: không load được ảnh nào');
+          if (!disposed) onTriggerLetterRef.current?.();
+          return;
+        }
+        if (failed > 0) {
+          console.warn(`ThreeSphere: ${failed}/${imageUrls.length} ảnh load lỗi`);
+        }
+
         if (disposed) {
-          textures.forEach((t) => t.dispose());
+          textureByUrl.forEach((t) => t.dispose());
           return;
         }
 
         const slotW = Math.max(...FRAME_PRESETS.map((p) => p.w)) * 1.08;
         const slotH = Math.max(...FRAME_PRESETS.map((p) => p.h)) * 1.08;
         const slots = buildLatLongSlots(SPHERE_RADIUS, slotW, slotH);
+        const slotImageUrls = shuffleInPlace(assignRandomImageUrls(loadedUrls, slots.length));
+
+        if (import.meta.env.DEV) {
+          const unique = new Set(slotImageUrls).size;
+          console.info(
+            `ThreeSphere: ${loadedUrls.length} ảnh → ${slots.length} slot (${unique} ảnh khác nhau trên cầu)`,
+          );
+        }
 
         slots.forEach((targetPos, i) => {
-          const sourceTexture = textures[i % textures.length];
+          const sourceTexture = textureByUrl.get(slotImageUrls[i]);
+          if (!sourceTexture) return;
+
           const frameSize = pickFrameSize(i);
           const photo = createPhotoCard(sourceTexture, renderer, frameSize, i);
 
@@ -502,6 +569,7 @@ export default function ThreeSphere({ onTriggerLetter }) {
         item.frameBg.material.dispose();
         item.edgeMesh.material.dispose();
       });
+      sourceTextures.forEach((tex) => tex.dispose());
     };
   }, []);
 
