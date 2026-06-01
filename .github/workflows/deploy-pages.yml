@@ -1,3 +1,5 @@
+# Cần: Repo Settings → Pages → Source = "GitHub Actions" (KHÔNG "Deploy from branch").
+# Nếu deploy từ branch/root, GitHub serve index.html dev (/src/main.jsx) → trang trắng/404.
 name: Deploy to GitHub Pages
 
 on:
@@ -17,8 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Project site: https://tech-dicsoft.github.io/beiu/
-  VITE_BASE_URL: /beiu/
+  VITE_BASE_URL: /beiu/ # https://chavisnguyen.github.io/beiu/
 
 jobs:
   build:
