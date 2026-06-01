@@ -17,10 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # User site: https://tech-dicsoft.github.io/  (repo tên tech-dicsoft.github.io)
-  VITE_BASE_URL: /
-  # Nếu là project site: https://tech-dicsoft.github.io/<repo>/ thì đổi thành:
-  # VITE_BASE_URL: /new-design/
+  # Project site: https://tech-dicsoft.github.io/beiu/
+  VITE_BASE_URL: /beiu/
 
 jobs:
   build:
