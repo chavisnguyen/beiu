@@ -1,0 +1,40 @@
+{
+  "password": {
+    "code": "1903",
+    "title": "Nhập mật khẩu",
+    "subtitle": "Ngày chúng mình bắt đầu yêu",
+    "loading": "Đang tải..."
+  },
+  "textExplosion": {
+    "word1": "Chúc Mừng",
+    "word2": {
+      "line1": "Ngày Quốc Tế\nThiếu Nhi",
+      "line2": "Bé iu của anh"
+    },
+    "timing": {
+      "word1": 1800,
+      "word2": 2000,
+      "explode": 1500
+    }
+  },
+  "threeSphere": {
+    "hint": "Kéo để xoay quả cầu · Click để tiếp tục"
+  },
+  "greetingCard": {
+    "envelopeHint": "Nhấp vào thư để mở",
+    "header": {
+      "title": "Hôm nay",
+      "date": "01-06-2026",
+      "subtitle": "Là ngày \"Quốc tế thiếu nhi\""
+    },
+    "messages": {
+      "paragraph1": "Chúc bạn nhỏ của tôi mau ăn chóng lớn và ngoan ngoãn nhé. Luôn vui vẻ, nở nụ cười trên môi và đặc biệt là không được cáu gắt nha. Chúc bạn một ngày xinh xắn.",
+      "paragraph2": "Chúc bạn nhỏ ngày càng xinh xắn, dễ thương, mong bạn có thật nhiều niềm vui. Thương bạn nhỏ của tôi nhiều lắm...\nThương bạn nhỏ của tôi nhiều lắm..."
+    },
+    "footer": "Chúc bạn nhỏ luôn hạnh phúc!"
+  },
+  "music": {
+    "play": "Bật nhạc",
+    "pause": "Tắt nhạc"
+  }
+}
