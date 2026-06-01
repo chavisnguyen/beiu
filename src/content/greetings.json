@@ -9,7 +9,7 @@
     "word1": "Chúc Mừng",
     "word2": {
       "line1": "Ngày Quốc Tế\nThiếu Nhi",
-      "line2": "Bé iu của anh"
+      "line2": "Em bé Mai Lê của anh nè"
     },
     "timing": {
       "word1": 2200,
@@ -18,19 +18,19 @@
     }
   },
   "threeSphere": {
-    "hint": "Kéo để xoay quả cầu · Click để tiếp tục"
+    "hint": "Xoay quả cầu · Click để tiếp tục"
   },
   "greetingCard": {
-    "envelopeHint": "Nhấp vào thư để mở",
+    "envelopeHint": "Mở",
     "header": {
       "title": "Hôm nay",
       "date": "01-06-2026",
-      "subtitle": "Là ngày \"Quốc tế thiếu nhi\""
+      "subtitle": "Là ngày \"Quốc tế em bé\""
     },
     "messages": {
-      "paragraph1": "Chúc bạn nhỏ của tôi mau ăn chóng lớn và ngoan ngoãn nhé. Luôn vui vẻ, nở nụ cười trên môi và đặc biệt là không được cáu gắt nha. Chúc bạn một ngày xinh xắn.",
-      "paragraph2": "Chúc bạn nhỏ ngày càng xinh xắn, dễ thương, mong bạn có thật nhiều niềm vui. Thương bạn nhỏ của tôi nhiều lắm...\nThương bạn nhỏ của tôi nhiều lắm..."
+      "paragraph1": "Chúc em bé của anh hay ăn chóng lớn và luôn ngoan ngoãn nghe lời người lớn nhé. Luôn vui vẻ, khoẻ mạnh, cười thật nhiều, đạt được những gì bản thân kì vọng",
+      "paragraph2": "Và nhớ phải luôn là em bé của anh đề năm nào cũng được nhận quà nhé. \nAYEN - Chavis Ng..."
     },
-    "footer": "Chúc bạn nhỏ luôn hạnh phúc!"
+    "footer": "Hãy nhớ là em luôn có anh ở bên cạnh nhé <3"
   }
 }
