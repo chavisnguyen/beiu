@@ -34,12 +34,22 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Verify build output
+      - name: Verify production build (not dev index.html)
         run: |
+          echo "=== dist/index.html ==="
+          head -n 15 dist/index.html
           test -f dist/index.html
           test -f dist/.nojekyll
-          grep -q 'src="./assets/' dist/index.html || grep -q "src='./assets/" dist/index.html
+          if grep -q '/src/main.jsx' dist/index.html; then
+            echo "::error::dist/index.html vẫn là bản DEV. Cần chạy npm run build trước khi deploy."
+            exit 1
+          fi
+          if ! grep -Eq 'src="\./assets/|src="/assets/' dist/index.html; then
+            echo "::error::Không thấy bundle JS trong dist/index.html"
+            exit 1
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
