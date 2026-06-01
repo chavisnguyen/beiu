@@ -179,11 +179,8 @@ function loadTexture(loader, url) {
   });
 }
 
-// Cả .jpg và .JPG — glob Vite phân biệt hoa thường trên Linux (GitHub Pages)
-const imageModules = import.meta.glob(
-  '../assets/images/*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF,webp,WEBP}',
-  { eager: true },
-);
+// Ảnh đã nén: pnpm optimize-images (WebP từ images-original/)
+const imageModules = import.meta.glob('../assets/images/*.{webp,WEBP}', { eager: true });
 
 function loadImageUrls() {
   const urls = Object.values(imageModules)

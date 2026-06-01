@@ -9,6 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
+
+# Bản gốc đầy đủ — giữ local, không cần đẩy lên Git (quá nặng)
+src/assets/images-original/
 dist-ssr
 *.local
 
