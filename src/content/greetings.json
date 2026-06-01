@@ -12,9 +12,9 @@
       "line2": "Bé iu của anh"
     },
     "timing": {
-      "word1": 1800,
-      "word2": 2000,
-      "explode": 1500
+      "word1": 2200,
+      "word2": 3300,
+      "explode": 2200
     }
   },
   "threeSphere": {

@@ -235,7 +235,7 @@ export default function ThreeSphere({ onTriggerLetter }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.style.cssText =
-      'display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none;' +
+      'display:block;position:absolute;inset:0;z-index:1;width:100%;height:100%;touch-action:none;' +
       '-webkit-mask-image:radial-gradient(circle at 50% 48%,#000 0%,#000 36%,rgba(0,0,0,0.55) 52%,transparent 68%);' +
       'mask-image:radial-gradient(circle at 50% 48%,#000 0%,#000 36%,rgba(0,0,0,0.55) 52%,transparent 68%);';
     container.appendChild(renderer.domElement);
@@ -518,6 +518,7 @@ export default function ThreeSphere({ onTriggerLetter }) {
           z-index: 10;
           cursor: grab;
           background: #0d0104;
+          isolation: isolate;
         }
 
         .three-sphere-stage:active {
@@ -525,38 +526,51 @@ export default function ThreeSphere({ onTriggerLetter }) {
         }
 
         .sphere-hint-text {
-          position: absolute;
-          bottom: 12%;
+          position: fixed;
           left: 50%;
+          bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 1rem));
           transform: translateX(-50%);
+          box-sizing: border-box;
+          width: min(92vw, 22rem);
+          max-width: calc(100vw - 2rem);
+          padding: 0.5rem 0.85rem;
           color: #ff9fb2;
-          font-size: 1.1rem;
+          font-size: clamp(0.8rem, 3.2vw, 1.05rem);
           font-weight: 500;
-          letter-spacing: 1px;
-          text-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
-          animation: pulseShadow 2s infinite ease-in-out;
+          line-height: 1.45;
+          letter-spacing: 0.02em;
+          text-align: center;
+          text-wrap: balance;
+          white-space: normal;
+          text-shadow: 0 0 12px rgba(255, 77, 109, 0.75);
+          background: rgba(13, 1, 4, 0.72);
+          border: 1px solid rgba(255, 77, 109, 0.25);
+          border-radius: 999px;
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          animation: sphereHintPulse 2.2s infinite ease-in-out;
           pointer-events: none;
-          z-index: 2;
+          z-index: 30;
           font-family: 'Outfit', sans-serif;
-          white-space: nowrap;
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 640px) {
           .sphere-hint-text {
-            white-space: normal;
-            text-align: center;
-            width: 85%;
+            bottom: auto;
+            top: max(4.5rem, calc(env(safe-area-inset-top, 0px) + 3.25rem));
+            width: min(94vw, 20rem);
+            font-size: clamp(0.78rem, 3.6vw, 0.95rem);
+            padding: 0.45rem 0.75rem;
+            border-radius: 12px;
           }
         }
 
-        @keyframes pulseShadow {
+        @keyframes sphereHintPulse {
           0%, 100% {
-            opacity: 0.45;
-            transform: translateX(-50%) scale(0.98);
+            opacity: 0.72;
           }
           50% {
-            opacity: 0.95;
-            transform: translateX(-50%) scale(1.03);
+            opacity: 1;
           }
         }
       `}</style>
